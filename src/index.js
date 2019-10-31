@@ -15,7 +15,7 @@ routes(app);
 
 app.all('*', (req, res) => res.status(404).json({
   success: false,
-  message: 'The page you are looking for does not exist'
+  message: 'You are on Investico NIG LTD but it looks like The page you are looking for does not exist'
 }));
 
 const PORT = process.env.PORT || 2000;

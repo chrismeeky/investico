@@ -8,7 +8,6 @@ if (process.env.NODE_ENV !== 'production') {
   baseUrl = process.env.SENDGRID_PRODUCTION__URL;
 }
 
-console.log(baseUrl);
 /* eslint-disable max-len */
 /**
  * @description contains utility function to send emails
@@ -23,14 +22,14 @@ class SendEmail {
   static verifyEmail(email, firstName, token) {
     const details = {
       email,
-      subject: 'Email Verification - Soft Overflow',
+      subject: 'Email Verification - Investico',
       html: `'<div style="width: 90%; margin: 5em auto;
        box-shadow: 0 0 10px rgba(0,0,0,.9);">
         <div>
           <div>
             <div style="background-color: #2084ba; height: 3rem; width: 100%">
                 <h2 style="text-align: center; color: white;
-                 padding-top: 10px;">Softoverflow</h2>
+                 padding-top: 10px;">Investico</h2>
             </div>
             <h4 style="text-align: center">Hi! ${firstName}</h4>
           </div>
@@ -68,9 +67,9 @@ class SendEmail {
   static confirmRegistrationComplete(email) {
     const details = {
       email,
-      subject: 'Email Verification - Soft Overflow',
+      subject: 'Email Verification - Investico',
       html: `<p>Your registration has been completed<p>
-      <p>Thank you for registering with Soft Overflow.</p>
+      <p>Thank you for registering with Investico.</p>
        <p> >>>
        <a href=${baseUrl}/home> Go to your profile </a> <<< </p>`
     };
