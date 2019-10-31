@@ -11,6 +11,10 @@ const profileRoute = app => {
     Authorization.checkToken,
     Validate.validateUserInput,
     ProfileController.viewCurrentStock);
+  app.patch('/api/v1/profile',
+    Authorization.checkToken,
+    Validate.validateUserInput,
+    ProfileController.sellAStock);
 };
 
 export default profileRoute;

@@ -65,6 +65,44 @@ class ProfileController {
       return HelperMethods.serverError(res, e.message);
     }
   }
+
+  /**
+   * Sell a Stock
+   * Route: PATCH: /api/v1/profile
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof ProfileController
+   */
+  static async sellAStock(req, res) {
+    const { tradingCode } = req.body;
+    let { numberOfUnits } = req.body;
+    numberOfUnits = parseInt(numberOfUnits, 10);
+
+    try {
+      const originalStock = await Stock.findOne({ tradingCode });
+      const availableVolume = originalStock.volume;
+      const volumeAfterSale = availableVolume + numberOfUnits;
+
+      const stockForSale = await Profile.findOne({ tradingCode });
+      
+      const stockForSaleVolume = stockForSale.numberOfUnits;
+      const remainingVolumeAfterSale = stockForSaleVolume - numberOfUnits;
+      const soldStock = await Profile.updateOne({ tradingCode }, { $set: { numberOfUnits: remainingVolumeAfterSale } });
+
+      if (soldStock) {
+        const addedStock = await Stock.updateOne({ tradingCode }, { $set: { volume: volumeAfterSale } });
+        if (addedStock) {
+          return HelperMethods.requestSuccessful(res, {
+            success: true,
+            message: 'you have successfully sold your stock'
+          });
+        }
+      }
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
 }
 
 export default ProfileController;
