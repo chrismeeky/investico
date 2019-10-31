@@ -7,6 +7,10 @@ const profileRoute = app => {
     Authorization.checkToken,
     Validate.validateUserInput,
     ProfileController.addAStock);
+  app.get('/api/v1/profile',
+    Authorization.checkToken,
+    Validate.validateUserInput,
+    ProfileController.viewCurrentStock);
 };
 
 export default profileRoute;

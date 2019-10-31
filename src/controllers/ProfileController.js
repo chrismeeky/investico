@@ -43,6 +43,28 @@ class ProfileController {
       return HelperMethods.serverError(res, e.message);
     }
   }
+
+  /**
+   * View current stocks
+   * Route: GET: /api/v1/stocks
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof ProfileController
+   */
+  static async viewCurrentStock(req, res) {
+    const { id } = req.decoded;
+    const stocks = await Profile.find({ userId: id });
+    try {
+      if (!stocks.length) return HelperMethods.clientError(res, 'no stocks found');
+      return HelperMethods.requestSuccessful(res, {
+        success: true,
+        stocks,
+      });
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
 }
 
 export default ProfileController;
