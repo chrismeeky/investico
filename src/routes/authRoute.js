@@ -18,6 +18,10 @@ const authRoutes = app => {
     Authorization.checkToken,
     UserController.verifyEmail,
   );
+  app.patch('/api/v1/user/stock',
+    Authorization.checkToken,
+    Validate.validateUserInput,
+    UserController.updateUserStock);
 };
 
 export default authRoutes;

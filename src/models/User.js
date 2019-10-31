@@ -47,6 +47,10 @@ const userSchema = Schema({
     type: Boolean,
     default: false,
   },
+  stocks: {
+    type: Array,
+    default: []
+  },
   date: {
     type: Date,
     default: Date.now

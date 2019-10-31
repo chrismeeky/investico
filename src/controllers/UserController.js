@@ -78,7 +78,6 @@ class UserController {
       HelperMethods
         .serverError(res, 'Your registration could not be completed. Please try again');
     } catch (error) {
-      console.log(error.message);
       return HelperMethods.serverError(res);
     }
   }
@@ -165,6 +164,38 @@ class UserController {
         }
       }
       return HelperMethods.clientError(res, 'Email or password does not exist', 400);
+    } catch (error) {
+      return HelperMethods.serverError(res);
+    }
+  }
+
+  /**
+   * Update user's stock information
+   * Route: PATCH: /user/stock
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof UserController
+   */
+  static async updateUserStock(req, res) {
+    const { id } = req.decoded;
+    try {
+      const userExist = await User.findOne({ _id: id });
+      if (!userExist) {
+        return HelperMethods
+          .clientError(res, {
+            message: 'cannot find user'
+          }, 200);
+      }
+      const stock = userExist.stocks || [];
+      stock.push(req.body.stock);
+      const updateStock = await User.updateOne({ _id: id }, { $set: { stocks: stock } });
+      if (updateStock) {
+        HelperMethods.requestSuccessful(res, {
+          success: true,
+          message: 'users stock information has been updated'
+        });
+      }
     } catch (error) {
       return HelperMethods.serverError(res);
     }
