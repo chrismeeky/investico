@@ -78,7 +78,7 @@ class UserController {
       HelperMethods
         .serverError(res, 'Your registration could not be completed. Please try again');
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       return HelperMethods.serverError(res);
     }
   }
@@ -92,8 +92,9 @@ class UserController {
    * @memberof UserController
    */
   static async verifyEmail(req, res) {
+    const { id } = req.decoded;
     try {
-      const foundUser = await User.findOne({ _id: req.decoded.id });
+      const foundUser = await User.findOne({ _id: id });
       if (foundUser) {
         const userUpdated = await User.updateOne({ _id: req.decoded.id },
           { $set: { isVerified: true } });
