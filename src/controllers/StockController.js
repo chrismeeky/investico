@@ -41,7 +41,7 @@ class StockController {
    * @memberof StockController
    */
   static async viewAvailableStocks(req, res) {
-    const stocks = await Stock.find({});
+    const stocks = await Stock.find({ available: true });
     try {
       if (!stocks.length) return HelperMethods.clientError(res, 'no stocks found');
       return HelperMethods.requestSuccessful(res, {
