@@ -139,7 +139,7 @@ class UserController {
       if (!userFound.isVerified) {
         return HelperMethods.clientError(res, {
           success: false,
-          message: 'You had started the registration process already. '
+          message: 'You had started the registration process earlier. '
             + 'Please check your email to complete your registration.'
         }, 400);
       }
