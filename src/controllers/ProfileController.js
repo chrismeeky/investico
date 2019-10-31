@@ -1,4 +1,4 @@
-import { Profile } from '../models';
+import { Profile, Stock } from '../models';
 import { HelperMethods } from '../utils';
 
 /**
@@ -24,14 +24,20 @@ class ProfileController {
       numberOfUnits,
     };
 
-    const stock = new Profile(newStock);
     try {
+      const originalStock = await Stock.findOne({ tradingCode });
+      const availableVolume = originalStock.volume;
+      const volumeAfterSale = availableVolume - numberOfUnits;
+      const stock = new Profile(newStock);
       const addedStock = await stock.save();
       if (addedStock) {
-        return HelperMethods.requestSuccessful(res, {
-          success: true,
-          stock: addedStock
-        });
+        const removedStock = await Stock.updateOne({ tradingCode }, { $set: { volume: volumeAfterSale } });
+        if (removedStock) {
+          return HelperMethods.requestSuccessful(res, {
+            success: true,
+            stock: addedStock
+          });
+        }
       }
     } catch (e) {
       return HelperMethods.serverError(res, e.message);
