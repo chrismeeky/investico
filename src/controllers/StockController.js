@@ -24,7 +24,7 @@ class StockController {
       if (newStock) {
         return HelperMethods.requestSuccessful(res, {
           success: true,
-          question: newStock
+          stock: newStock
         });
       }
     } catch (e) {
@@ -41,6 +41,27 @@ class StockController {
    * @memberof StockController
    */
   static async viewAvailableStocks(req, res) {
+    const stocks = await Stock.find({ available: true });
+    try {
+      if (!stocks.length) return HelperMethods.clientError(res, 'no stocks found');
+      return HelperMethods.requestSuccessful(res, {
+        success: true,
+        stocks,
+      });
+    } catch (e) {
+      return HelperMethods.serverError(res, e.message);
+    }
+  }
+
+  /**
+   * View all details of stocks in protfolio
+   * Route: GET: /api/v1/user/stocks
+   * @param {object} req - HTTP Request object
+   * @param {object} res - HTTP Response object
+   * @return {res} res - HTTP Response object
+   * @memberof StockController
+   */
+  static async viewPortfolioStocks(req, res) {
     const stocks = await Stock.find({ available: true });
     try {
       if (!stocks.length) return HelperMethods.clientError(res, 'no stocks found');

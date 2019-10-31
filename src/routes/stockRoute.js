@@ -2,7 +2,7 @@ import { StockController } from '../controllers';
 import Validate from '../validation';
 import { Authorization } from '../middlewares';
 
-const questionRoute = app => {
+const stockRoute = app => {
   app.post('/api/v1/stock',
     Authorization.checkToken,
     Validate.validateUserInput,
@@ -11,4 +11,4 @@ const questionRoute = app => {
     StockController.viewAvailableStocks);
 };
 
-export default questionRoute;
+export default stockRoute;
