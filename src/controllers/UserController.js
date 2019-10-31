@@ -187,17 +187,16 @@ class UserController {
             message: 'cannot find user'
           }, 200);
       }
-      const stock = userExist.stock || [];
+      const stock = userExist.stocks || [];
       stock.push(req.body.stock);
-      const updateStock = await User.updateOne({ id }, { $set: { stocks: stock } });
+      const updateStock = await User.updateOne({ _id: id }, { $set: { stocks: stock } });
       if (updateStock) {
         HelperMethods.requestSuccessful(res, {
           success: true,
-          message: 'stock has been updated'
+          message: 'users stock information has been updated'
         });
       }
     } catch (error) {
-      console.log(error.message);
       return HelperMethods.serverError(res);
     }
   }
